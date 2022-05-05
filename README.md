@@ -1,2 +1,3 @@
-# algolia-rules-checker
+# Algolia Rules Checker
+
 Created with CodeSandbox

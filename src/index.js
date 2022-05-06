@@ -130,7 +130,7 @@ form.addEventListener('submit', async e => {
               <td><a href="${getRuleUrl(id, editor)}" target="_blank">Link to rule</a></td>
             </tr>
           `
-        )}
+        ).join('')}
       </tbody>
     </table>
   `

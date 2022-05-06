@@ -5,10 +5,9 @@ import './styles.css'
 // Variables
 let client,
     index,
-    appId = localStorage.getItem('appId') || '',
-    indexName = localStorage.getItem('indexName') || '',
-    apiKey = localStorage.getItem('apiKey') || '',
-    pid = localStorage.getItem('pid') || '',
+    appId = '0YMLXPVCAL',
+    indexName = 'production',
+    apiKey = '82c314d5fdafdc95850039f1ed226b46',
     query = ''
 
 // Elements
@@ -23,8 +22,6 @@ const indexNameInput = document.getElementById('index_name')
 indexNameInput.value = indexName
 const apiKeyInput = document.getElementById('api_key')
 apiKeyInput.value = apiKey
-const pidInput = document.getElementById('pid')
-pidInput.value = pid
 const queryInput = document.getElementById('query')
 
 // Functions
@@ -53,15 +50,9 @@ const fetchRules = async query => {
   }
 }
 
-const getSearchUrl = query => {
-  const pidParam = pid ? `&pid=${pid}` : ''
-  return `https://www.algolia.com/apps/${appId}/explorer/browse/${indexName}?query=${query}&searchMode=search${pidParam}`
-}
+const getSearchUrl = query => `https://www.algolia.com/apps/${appId}/explorer/browse/${indexName}?query=${query}&searchMode=search`
 
-const getRuleUrl = (id, editor) => {
-  const pidParam = pid ? `?pid=${pid}` : ''
-  return `https://www.algolia.com/apps/${appId}/rules/${indexName}/${editor}-editor/edit/${id}${pidParam}`
-}
+const getRuleUrl = (id, editor) => `https://www.algolia.com/apps/${appId}/rules/${indexName}/${editor}-editor/edit/${id}`
 
 // Search
 form.addEventListener('submit', async e => {
@@ -70,21 +61,10 @@ form.addEventListener('submit', async e => {
   const _appId = appIdInput.value.trim()
   const _indexName = indexNameInput.value.trim()
   const _apiKey = apiKeyInput.value.trim()
-  const _pid = pidInput.value.trim()
   const _query = queryInput.value.trim()
 
-  if (_appId !== appId || _indexName !== indexName || _apiKey !== apiKey) {
-    client = algoliasearch(_appId, _apiKey)
-    index = client.initIndex(_indexName)
-    appId = _appId
-    localStorage.setItem('appId', appId)
-    indexName = _indexName
-    localStorage.setItem('indexName', indexName)
-    apiKey = _apiKey
-    localStorage.setItem('apiKey', apiKey)
-  }
-  pid = _pid
-  localStorage.setItem('pid', pid)
+  client = algoliasearch(_appId, _apiKey)
+  index = client.initIndex(_indexName)
 
   if (_query.toLowerCase() === query.toLowerCase() && _appId === appId && _indexName === indexName && _apiKey === apiKey) return
   query = _query

@@ -10,6 +10,11 @@ let client,
     apiKey = localStorage.getItem('apiKey') || '',
     pid = localStorage.getItem('pid') || '',
     query = ''
+    
+if (appId && indexName && apiKey) {
+  client = algoliasearch(appId, apiKey)
+  index = client.initIndex(indexName)
+}
 
 // Elements
 const form = document.getElementById('search-form')

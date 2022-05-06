@@ -5,8 +5,8 @@
   "license": "MIT",
   "main": "index.html",
   "scripts": {
-    "start": "parcel index.html --open && cp -f _headers dist/_headers",
-    "build": "parcel build index.html && cp -f _headers dist/_headers"
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html"
   },
   "dependencies": {
     "algoliasearch": "4.13.0",

@@ -1,3 +1,10 @@
+let password = ''
+while (password !== 'tkw934F@') {
+  password = prompt('Enter the password:')
+}
+
+document.body.style.display = 'block'
+
 import algoliasearch from 'algoliasearch'
 import 'regenerator-runtime/runtime'
 import './styles.css'

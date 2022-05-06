@@ -1,3 +1,3 @@
 # Algolia Rules Checker
 
-Created with CodeSandbox
+Simple tool to check which rules are applied to a specified query 🔍

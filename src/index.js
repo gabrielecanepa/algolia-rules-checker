@@ -3,14 +3,23 @@ import 'regenerator-runtime/runtime'
 import './styles.css'
 
 // Variables
-let client, index
-let appId = '', indexName = '', apiKey = '', pid = '', query = ''
+let client,
+    index,
+    appId = '',
+    indexName = '',
+    apiKey = '',
+    pid = '',
+    query = ''
 
 // Elements
 const form = document.getElementById('search-form')
 const message = document.getElementById('search-message')
 const link = document.getElementById('search-link')
 const results = document.getElementById('search-results')
+
+// ['appId', 'indexName', 'apiKey', 'pid'].forEach(key => {
+//   // TODO: check local storage
+// }
 
 // Functions
 const fetchRules = async query => {
@@ -27,8 +36,8 @@ const fetchRules = async query => {
   } catch (e) {
     message.innerHTML = `
       <p class="text-danger fb-4">
-        Your search returned an error 🫥 <br> 
-        Please check the specified data and try again.
+        Your search returned an error 😓<br> 
+        Please check your application details and try again.
       </p>
     `
     link.innerHTML = ''
@@ -67,24 +76,24 @@ form.addEventListener('submit', async e => {
   }
   pid = _pid
 
-  if (_query.toLowerCase() === query.toLowerCase() && _appId !== appId && _indexName !== indexName && _apiKey !== apiKey) return
+  if (_query.toLowerCase() === query.toLowerCase() && _appId === appId && _indexName === indexName && _apiKey === apiKey) return
   query = _query
 
   // Fetch rules
   const rules = await fetchRules(query)
 
   // Link to dashboard
-  link.innerHTML = `<a href="${getSearchUrl(query)}" target="_blank">See this search in the dashboard</a>`
+  link.innerHTML = `<a href="${getSearchUrl(query)}" target="_blank">See this search in your dashboard</a>`
 
   // No rules
   if (rules.length === 0) {
-    message.innerHTML = `<p class="text-danger">No rules are applying with the query "${query}"</p>`
+    message.innerHTML = `<p class="text-danger">No rules are being applied to this query "${query}"</p>`
     results.innerHTML = ''
     return
   }
   // Rules
   message.innerHTML = `
-    <p class="text-success">${rules.length} rule${rules.length > 1 ? 's are' : ' is'} applying with the query "${query}"</p>
+    <p class="text-success">${rules.length} rule${rules.length > 1 ? 's are' : ' is'} being applied to the query "${query}"</p>
   `
   results.innerHTML = `
     <table class="table">
@@ -99,13 +108,13 @@ form.addEventListener('submit', async e => {
       <tbody>
         ${rules.map(
           ({ id, editor, description }) => `
-          <tr>
-            <td>${id}</td>
-            <td>${`${editor[0].toUpperCase()}${editor.slice(1)}`}
-            <td>${description}</td>
-            <td><a href="${getRuleUrl(id, editor)}" target="_blank">Link to rule</a></td>
-          </tr>
-        `
+            <tr>
+              <td>${id}</td>
+              <td>${`${editor[0].toUpperCase()}${editor.slice(1)}`}
+              <td>${description}</td>
+              <td><a href="${getRuleUrl(id, editor)}" target="_blank">Link to rule</a></td>
+            </tr>
+          `
         )}
       </tbody>
     </table>

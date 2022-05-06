@@ -1,7 +1,7 @@
 {
   "name": "algolia-rules-checker",
   "version": "1.0.0",
-  "description": "Handy tool to check which rules are applied for a specified query",
+  "description": "Simple tool to check which rules are applied to a specified query 🔍",
   "license": "MIT",
   "main": "index.html",
   "scripts": {
@@ -14,8 +14,6 @@
   },
   "devDependencies": {
     "@babel/core": "7.2.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^8.14.0",
     "typescript": "4.4.4"
   },
   "resolutions": {
@@ -25,7 +23,7 @@
     "algolia",
     "rules"
   ],
-  "browserlist": [
+  "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead"

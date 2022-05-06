@@ -1,7 +1,21 @@
-let password = ''
-while (password !== 'tkw934F@') {
+require('dotenv').config()
+
+const CLIENT_NAME = process.env.ALGOLIA_CLIENT_NAME || 'Algolia'
+const APP_PASSWORD = process.env.APP_PASSWORD || ''
+const APP_ID = process.env.ALGOLIA_APP_ID || ''
+const INDEX_NAME = process.env.ALGOLIA_INDEX_NAME || ''
+const API_KEY = process.env.ALGOLIA_API_KEY || ''
+
+document.title = `${CLIENT_NAME} Rules Checker`
+document.getElementById('client-name').textContent = CLIENT_NAME
+
+let password = localStorage.getItem('algolia-rules-checker-pass') || ''
+
+while (password !== APP_PASSWORD) {
   password = prompt('Enter the password:')
 }
+
+localStorage.setItem('algolia-rules-checker-pass', password)
 
 document.body.style.display = 'block'
 
@@ -12,9 +26,9 @@ import './styles.css'
 // Variables
 let client,
     index,
-    appId = '0YMLXPVCAL',
-    indexName = 'production',
-    apiKey = '82c314d5fdafdc95850039f1ed226b46',
+    appId = APP_ID,
+    indexName = INDEX_NAME,
+    apiKey = API_KEY,
     query = ''
 
 // Elements
@@ -84,13 +98,13 @@ form.addEventListener('submit', async e => {
 
   // No rules
   if (rules.length === 0) {
-    message.innerHTML = `<p class="text-danger">No rules are being applied to this query "${query}"</p>`
+    message.innerHTML = `<p class="text-danger mb-2">No rules are matching this query "${query}"</p>`
     results.innerHTML = ''
     return
   }
   // Rules
   message.innerHTML = `
-    <p class="text-success">${rules.length} rule${rules.length > 1 ? 's are' : ' is'} being applied to the query "${query}"</p>
+    <p class="text-success mb-2">${rules.length} rule${rules.length > 1 ? 's are' : ' is'} matching the query "${query}"</p>
   `
   results.innerHTML = `
     <table class="table">
@@ -112,7 +126,7 @@ form.addEventListener('submit', async e => {
               <td><a href="${getRuleUrl(id, editor)}" target="_blank">Link to rule</a></td>
             </tr>
           `
-        )}
+        ).join('')}
       </tbody>
     </table>
   `

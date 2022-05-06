@@ -63,12 +63,12 @@ const fetchRules = async query => {
 }
 
 const getSearchUrl = query => {
-  const pidParam = pid ? `&pid=${pid}` : ''
+  const pidParam = pid ? `&_pid=${pid}` : ''
   return `https://www.algolia.com/apps/${appId}/explorer/browse/${indexName}?query=${query}&searchMode=search${pidParam}`
 }
 
 const getRuleUrl = (id, editor) => {
-  const pidParam = pid ? `?pid=${pid}` : ''
+  const pidParam = pid ? `?_pid=${pid}` : ''
   return `https://www.algolia.com/apps/${appId}/rules/${indexName}/${editor}-editor/edit/${id}${pidParam}`
 }
 

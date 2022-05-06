@@ -102,13 +102,13 @@ form.addEventListener('submit', async e => {
 
   // No rules
   if (rules.length === 0) {
-    message.innerHTML = `<p class="text-danger">No rules are matching to this query "${query}"</p>`
+    message.innerHTML = `<p class="text-danger mb-2">No rules are matching to this query "${query}"</p>`
     results.innerHTML = ''
     return
   }
   // Rules
   message.innerHTML = `
-    <p class="text-success">${rules.length} rule${rules.length > 1 ? 's are' : ' is'} matching to the query "${query}"</p>
+    <p class="text-success mb-2">${rules.length} rule${rules.length > 1 ? 's are' : ' is'} matching to the query "${query}"</p>
   `
   results.innerHTML = `
     <table class="table">

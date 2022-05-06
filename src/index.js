@@ -5,10 +5,10 @@ import './styles.css'
 // Variables
 let client,
     index,
-    appId = '',
-    indexName = '',
-    apiKey = '',
-    pid = '',
+    appId = localStorage.getItem('appId') || '',
+    indexName = localStorage.getItem('indexName') || '',
+    apiKey = localStorage.getItem('apiKey') || '',
+    pid = localStorage.getItem('pid') || '',
     query = ''
 
 // Elements
@@ -17,9 +17,15 @@ const message = document.getElementById('search-message')
 const link = document.getElementById('search-link')
 const results = document.getElementById('search-results')
 
-// ['appId', 'indexName', 'apiKey', 'pid'].forEach(key => {
-//   // TODO: check local storage
-// }
+const appIdInput = document.getElementById('app_id')
+appIdInput.value = appId
+const indexNameInput = document.getElementById('index_name')
+indexNameInput.value = indexName
+const apiKeyInput = document.getElementById('api_key')
+apiKeyInput.value = apiKey
+const pidInput = document.getElementById('pid')
+pidInput.value = pid
+const queryInput = document.getElementById('query')
 
 // Functions
 const fetchRules = async query => {
@@ -61,20 +67,24 @@ const getRuleUrl = (id, editor) => {
 form.addEventListener('submit', async e => {
   e.preventDefault()
   
-  const _appId = e.target.querySelector('#app_id').value.trim()
-  const _indexName = e.target.querySelector('#index_name').value.trim()
-  const _apiKey = e.target.querySelector('#api_key').value.trim()
-  const _pid = e.target.querySelector('#pid').value.trim()
-  const _query = e.target.querySelector('#query').value.trim()
+  const _appId = appIdInput.value.trim()
+  const _indexName = indexNameInput.value.trim()
+  const _apiKey = apiKeyInput.value.trim()
+  const _pid = pidInput.value.trim()
+  const _query = queryInput.value.trim()
 
   if (_appId !== appId || _indexName !== indexName || _apiKey !== apiKey) {
     client = algoliasearch(_appId, _apiKey)
     index = client.initIndex(_indexName)
     appId = _appId
+    localStorage.setItem('appId', appId)
     indexName = _indexName
+    localStorage.setItem('indexName', indexName)
     apiKey = _apiKey
+    localStorage.setItem('apiKey', apiKey)
   }
   pid = _pid
+  localStorage.setItem('pid', pid)
 
   if (_query.toLowerCase() === query.toLowerCase() && _appId === appId && _indexName === indexName && _apiKey === apiKey) return
   query = _query

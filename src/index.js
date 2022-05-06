@@ -39,11 +39,15 @@ const fetchRules = async query => {
 
     if (nbHits === 0) return []
 
-    return hits.map(({ description, objectID: id, tags }) => ({
-      id,
-      editor: tags?.includes('visual-editor') ? 'visual' : 'manual',
-      description: description ?? '',
-    }))
+    return hits
+      .sort((a, b) => b._metadata.lastUpdate - a._metadata.lastUpdate)
+      .map(({ description, enabled, objectID: id, tags, _metadata: { lastUpdate } }) => ({
+        id,
+        enabled: enabled ? '✅' : '❌',
+        editor: tags?.includes('visual-editor') ? 'visual' : 'manual',
+        description: description ?? '',
+        lastUpdate: new Date(lastUpdate * 1000).toLocaleString(),
+      }))
   } catch (e) {
     message.innerHTML = `
       <p class="text-danger fb-4">
@@ -115,19 +119,21 @@ form.addEventListener('submit', async e => {
       <thead>
         <tr>
           <th scope="col">Rule ID</th>
+          <th scope="col">Enabled</th>
           <th scope="col">Type</th>
           <th scope="col">Description</th>
-          <th scope="col">URL</th>
+          <th scope="col">Last updated</th>
         </tr>
       </thead>
       <tbody>
         ${rules.map(
-          ({ id, editor, description }) => `
+          ({ id, enabled, editor, description, lastUpdate }) => `
             <tr>
-              <td>${id}</td>
+              <td><a href="${getRuleUrl(id, editor)}" target="_blank">${id}</a></td>
+              <td>${enabled}</td>
               <td>${`${editor[0].toUpperCase()}${editor.slice(1)}`}
-              <td>${description}</td>
-              <td><a href="${getRuleUrl(id, editor)}" target="_blank">Link to rule</a></td>
+              <td style="max-width: 300px">${description}</td>
+              <td>${lastUpdate}</td>
             </tr>
           `
         ).join('')}

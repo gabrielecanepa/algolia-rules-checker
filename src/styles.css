@@ -4,3 +4,9 @@
   flex-direction: column;
   justify-content: space-between;
 }
+.is-disabled {
+  cursor: not-allowed;
+}
+tr {
+  vertical-align: middle;
+}

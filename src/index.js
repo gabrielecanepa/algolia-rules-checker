@@ -54,7 +54,19 @@ pidInput.value = pid
 const queryInput = document.getElementById('query')
 
 // Functions
+const setLoading = async () => {
+  message.innerHTML = ''
+  link.innerHTML = ''
+  results.innerHTML = `
+    <div class="d-flex justify-content-center mt-5">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+  `
+}
+
 const fetchRules = async query => {
+  await setLoading()
+
   try {
     const response = await index.search(query, { getRankingInfo: true })
     if (!response) throw new Error('No response')
@@ -138,10 +150,10 @@ form.addEventListener('submit', async e => {
   
   
   if (_query.toLowerCase() === query.toLowerCase() && _appId === appId && _indexName === indexName && _apiKey === apiKey) return
-  console.log(e)
   query = _query
 
   // Fetch rules
+  setLoading()
   const rules = await fetchRules(query)
 
   // Link to dashboard
